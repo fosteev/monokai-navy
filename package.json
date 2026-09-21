@@ -1,0 +1,17 @@
+{
+  "name": "phpstorm-monokai",
+  "displayName": "PhpStorm Monokai Navy",
+  "description": "Monokai (Sublime Text 3 flavour) ported from a PhpStorm .icls scheme, on a dark navy background",
+  "publisher": "fosteev",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/fosteev/vscode-phpstorm-monokai" },
+  "engines": { "vscode": "^1.80.0" },
+  "categories": ["Themes"],
+  "keywords": ["monokai", "phpstorm", "jetbrains", "dark", "navy"],
+  "contributes": {
+    "themes": [
+      { "label": "PhpStorm Monokai", "uiTheme": "vs-dark", "path": "./themes/phpstorm-monokai-color-theme.json" }
+    ]
+  }
+}
