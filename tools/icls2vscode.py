@@ -180,7 +180,7 @@ ui = {k: v for k, v in ui.items() if v}
 
 theme = {
     '$schema': 'vscode://schemas/color-theme',
-    'name': 'PhpStorm Monokai',
+    'name': 'Monokai Navy',
     'type': 'dark',
     'semanticHighlighting': True,
     'colors': {**base['colors'], **ui},
@@ -188,12 +188,12 @@ theme = {
     'semanticTokenColors': semantic,
 }
 os.makedirs(os.path.join(OUT, 'themes'), exist_ok=True)
-json.dump(theme, open(os.path.join(OUT, 'themes', 'phpstorm-monokai-color-theme.json'), 'w'), indent=2)
+json.dump(theme, open(os.path.join(OUT, 'themes', 'monokai-navy-color-theme.json'), 'w'), indent=2)
 json.dump({
-    'name': 'phpstorm-monokai', 'displayName': 'PhpStorm Monokai (imported)',
-    'publisher': 'fost', 'version': '1.0.0',
+    'name': 'monokai-navy', 'displayName': 'Monokai Navy',
+    'publisher': 'fosteev', 'version': '1.0.0',
     'engines': {'vscode': '^1.80.0'}, 'categories': ['Themes'],
-    'contributes': {'themes': [{'label': 'PhpStorm Monokai', 'uiTheme': 'vs-dark',
-                                'path': './themes/phpstorm-monokai-color-theme.json'}]},
+    'contributes': {'themes': [{'label': 'Monokai Navy', 'uiTheme': 'vs-dark',
+                                'path': './themes/monokai-navy-color-theme.json'}]},
 }, open(os.path.join(OUT, 'package.json'), 'w'), indent=2)
 print('tokenColors:', len(token_colors), 'semantic:', len(semantic), 'ui overrides:', len(ui))
