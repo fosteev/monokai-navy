@@ -4,9 +4,16 @@ Monokai as I have it in PhpStorm, ported to VS Code — the classic Sublime Text
 on a deep navy `#0b1823` instead of the usual olive-black, with the whole workbench
 (sidebar, tabs, panels, terminal, inputs) painted in the same navy family.
 
-![PHP](assets/preview-php.svg)
+Two variants: **Monokai Navy** (dark) and **Monokai Navy Light** — the same scopes and the same
+family of hues, re-tuned for a white page.
 
-![TypeScript](assets/preview-ts.svg)
+![PHP, dark](assets/preview-php.svg)
+
+![TypeScript, dark](assets/preview-ts.svg)
+
+![PHP, light](assets/preview-php-light.svg)
+
+![TypeScript, light](assets/preview-ts-light.svg)
 
 ![Palette](assets/palette.svg)
 
@@ -32,10 +39,10 @@ Not on the Marketplace yet. From this repo:
 git clone https://github.com/fosteev/monokai-navy
 cd monokai-navy
 npx @vscode/vsce package
-code --install-extension monokai-navy-1.0.0.vsix
+code --install-extension monokai-navy-1.1.0.vsix
 ```
 
-Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy**.
+Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy** or **Monokai Navy Light**.
 
 Recommended companions: `"terminal.integrated.minimumContrastRatio": 1` (otherwise
 VS Code re-tints terminal colours), and JetBrains Mono as `editor.fontFamily` — that is
@@ -55,7 +62,8 @@ python3 tools/icls2vscode.py \
 
 `tools/source.icls` is the scheme this theme came from; the navy workbench colours were
 layered on top by hand. `tools/render_preview.py` redraws the pictures above from the
-theme file, so they never drift from the actual colours.
+theme files, so they never drift from the actual colours. `tools/build_light.py` derives the
+light variant from the dark one through a dark→light colour map.
 
 ## Notes
 

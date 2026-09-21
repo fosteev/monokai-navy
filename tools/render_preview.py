@@ -1,79 +1,80 @@
 #!/usr/bin/env python3
 """Render README previews (SVG mock-ups of a VS Code window) from the theme's colours."""
-import json, os, html
+import json, os, re, html
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-T = json.load(open(os.path.join(ROOT, 'themes', 'monokai-navy-color-theme.json')))
-C = T['colors']
+DARK = dict(FG='#f8f8f2', K='#f92672', S='#e6db74', N='#ae81ff', F='#a7ec21', CL='#66d9ef', CM='#75715e', P='#f9faf4',
+            PV='#00c0b0', PF='#98ffe0', PP='#e9ff65', PC='#ff0057', PI='#00ffa6',
+            JL='#51f611', JG='#2293ff', JP='#00d7ff', JM='#f88908', JF='#fff21c', TI='#e30000')
+import importlib.util
+_bl = importlib.util.spec_from_file_location('bl', os.path.join(ROOT, 'tools', 'build_light.py'))
+LIGHT_MAP = dict(re.findall(r"'(#[0-9a-f]{6})': '(#[0-9a-f]{6})'", open(_bl.origin).read()))
+LIGHT = {k: LIGHT_MAP.get(v, v) for k, v in DARK.items()}
 
-FG, BG = C['editor.foreground'], C['editor.background']
-SIDE, ACT, BORDER, ACC = C['sideBar.background'], C['activityBar.background'], C['sideBar.border'], C['tab.activeBorderTop']
-DIM, LN = C['sideBar.foreground'], C['editorLineNumber.foreground']
-K, S, N, F, CL, CM, P = '#f92672', '#e6db74', '#ae81ff', '#a7ec21', '#66d9ef', '#75715e', '#f9faf4'
-PV, PF, PP, PC, PI = '#00c0b0', '#98ffe0', '#e9ff65', '#ff0057', '#00ffa6'
-JL, JG, JP, JM, JF, TI = '#51f611', '#2293ff', '#00d7ff', '#f88908', '#fff21c', '#e30000'
-
-def t(text, color=FG, style=''):
+def t(text, color='FG', style=''):
     return (text, color, style)
 
 PHP = [
-    [t('<?php', K)],
+    [t('<?php', 'K')],
     [],
-    [t('namespace ', K), t('App\\Service', FG), t(';', K)],
+    [t('namespace ', 'K'), t('App\\Service', 'FG'), t(';', 'K')],
     [],
-    [t('/**', CM)],
-    [t(' * Recalculates camera fees for the billing period.', CM)],
-    [t(' */', CM)],
-    [t('final class ', K), t('FeeCalculator', CL, 'italic'), t(' implements ', K), t('Calculator', PI, 'italic')],
-    [t('{', P)],
-    [t('    const ', K), t('DEFAULT_RATE', PC), t(' = ', K), t('0.15', N), t(';', K)],
+    [t('/**', 'CM')],
+    [t(' * Recalculates camera fees for the billing period.', 'CM')],
+    [t(' */', 'CM')],
+    [t('final class ', 'K'), t('FeeCalculator', 'CL', 'italic'), t(' implements ', 'K'), t('Calculator', 'PI', 'italic')],
+    [t('{', 'P')],
+    [t('    const ', 'K'), t('DEFAULT_RATE', 'PC'), t(' = ', 'K'), t('0.15', 'N'), t(';', 'K')],
     [],
-    [t('    private ', K), t('array', CL, 'italic'), t(' ', FG), t('$cache', PV), t(' = [];', K)],
+    [t('    private ', 'K'), t('array', 'CL', 'italic'), t(' ', 'FG'), t('$cache', 'PV'), t(' = [];', 'K')],
     [],
-    [t('    public function ', K), t('calculate', F), t('(', P), t('Account', CL, 'italic'), t(' ', FG), t('$account', PP), t(', ', K), t('int', CL, 'italic'), t(' ', FG), t('$days', PP), t('): ', K), t('float', CL, 'italic')],
-    [t('    {', P)],
-    [t('        if ', K), t('(', P), t('isset', F), t('(', P), t('$this', PV), t('->', K), t('cache', PF), t('[', P), t('$account', PP), t('->', K), t('id', PF), t(']', P), t('))', P), t(' {', P)],
-    [t('            return ', K), t('$this', PV), t('->', K), t('cache', PF), t('[', P), t('$account', PP), t('->', K), t('id', PF), t('];', K)],
-    [t('        }', P)],
+    [t('    public function ', 'K'), t('calculate', 'F'), t('(', 'P'), t('Account', 'CL', 'italic'), t(' ', 'FG'), t('$account', 'PP'), t(', ', 'K'), t('int', 'CL', 'italic'), t(' ', 'FG'), t('$days', 'PP'), t('): ', 'K'), t('float', 'CL', 'italic')],
+    [t('    {', 'P')],
+    [t('        if ', 'K'), t('(', 'P'), t('isset', 'F'), t('(', 'P'), t('$this', 'PV'), t('->', 'K'), t('cache', 'PF'), t('[', 'P'), t('$account', 'PP'), t('->', 'K'), t('id', 'PF'), t(']', 'P'), t('))', 'P'), t(' {', 'P')],
+    [t('            return ', 'K'), t('$this', 'PV'), t('->', 'K'), t('cache', 'PF'), t('[', 'P'), t('$account', 'PP'), t('->', 'K'), t('id', 'PF'), t('];', 'K')],
+    [t('        }', 'P')],
     [],
-    [t('        ', FG), t('$rate', PV), t(' = ', K), t('$account', PP), t('->', K), t('rate', PF), t(' ?? ', K), t('self', K), t('::', K), t('DEFAULT_RATE', PC), t(';', K)],
-    [t('        ', FG), t('$total', PV), t(' = ', K), t('round', F), t('(', P), t('$rate', PV), t(' * ', K), t('$days', PP), t(', ', K), t('2', N), t(');', K)],
-    [t('        ', FG), t('$this', PV), t('->', K), t('log', F), t('(', P), t('"fee for {$account->id}: $total"', S), t(');', K)],
+    [t('        ', 'FG'), t('$rate', 'PV'), t(' = ', 'K'), t('$account', 'PP'), t('->', 'K'), t('rate', 'PF'), t(' ?? ', 'K'), t('self', 'K'), t('::', 'K'), t('DEFAULT_RATE', 'PC'), t(';', 'K')],
+    [t('        ', 'FG'), t('$total', 'PV'), t(' = ', 'K'), t('round', 'F'), t('(', 'P'), t('$rate', 'PV'), t(' * ', 'K'), t('$days', 'PP'), t(', ', 'K'), t('2', 'N'), t(');', 'K')],
+    [t('        ', 'FG'), t('$this', 'PV'), t('->', 'K'), t('log', 'F'), t('(', 'P'), t('"fee for {$account->id}: $total"', 'S'), t(');', 'K')],
     [],
-    [t('        return ', K), t('$this', PV), t('->', K), t('cache', PF), t('[', P), t('$account', PP), t('->', K), t('id', PF), t('] = ', K), t('$total', PV), t(';', K)],
-    [t('    }', P)],
-    [t('}', P)],
+    [t('        return ', 'K'), t('$this', 'PV'), t('->', 'K'), t('cache', 'PF'), t('[', 'P'), t('$account', 'PP'), t('->', 'K'), t('id', 'PF'), t('] = ', 'K'), t('$total', 'PV'), t(';', 'K')],
+    [t('    }', 'P')],
+    [t('}', 'P')],
 ]
 
 TS = [
-    [t('import ', K), t('{ ', P), t('EventEmitter', CL, 'italic'), t(' }', P), t(' from ', K), t("'events'", S), t(';', K)],
+    [t('import ', 'K'), t('{ ', 'P'), t('EventEmitter', 'CL', 'italic'), t(' }', 'P'), t(' from ', 'K'), t("'events'", 'S'), t(';', 'K')],
     [],
-    [t('// Device state pushed by the hub over websocket', CM)],
-    [t('export interface ', K), t('DeviceState', TI, 'italic'), t(' {', P)],
-    [t('  id', FG), t(': ', K), t('string', CL, 'italic'), t(';', K)],
-    [t('  armed', FG), t(': ', K), t('boolean', CL, 'italic'), t(';', K)],
-    [t('  battery', FG), t('?: ', K), t('number', CL, 'italic'), t(';', K)],
-    [t('}', P)],
+    [t('// Device state pushed by the hub over websocket', 'CM')],
+    [t('export interface ', 'K'), t('DeviceState', 'TI', 'italic'), t(' {', 'P')],
+    [t('  id', 'FG'), t(': ', 'K'), t('string', 'CL', 'italic'), t(';', 'K')],
+    [t('  armed', 'FG'), t(': ', 'K'), t('boolean', 'CL', 'italic'), t(';', 'K')],
+    [t('  battery', 'FG'), t('?: ', 'K'), t('number', 'CL', 'italic'), t(';', 'K')],
+    [t('}', 'P')],
     [],
-    [t('const ', K), t('RETRY_MS', JG, 'bold italic'), t(' = ', K), t('5_000', N), t(';', K)],
+    [t('const ', 'K'), t('RETRY_MS', 'JG', 'bold italic'), t(' = ', 'K'), t('5_000', 'N'), t(';', 'K')],
     [],
-    [t('export function ', K), t('connect', JF, 'italic'), t('(', P), t('url', JP, 'underline'), t(': ', K), t('string', CL, 'italic'), t(', ', K), t('bus', JP, 'underline'), t(': ', K), t('EventEmitter', CL, 'italic'), t(') {', P)],
-    [t('  let ', K), t('attempt', JL), t(' = ', K), t('0', N), t(';', K)],
-    [t('  const ', K), t('socket', JL), t(' = ', K), t('new ', K), t('WebSocket', CL, 'italic'), t('(', P), t('url', JP, 'underline'), t(');', K)],
+    [t('export function ', 'K'), t('connect', 'JF', 'italic'), t('(', 'P'), t('url', 'JP', 'underline'), t(': ', 'K'), t('string', 'CL', 'italic'), t(', ', 'K'), t('bus', 'JP', 'underline'), t(': ', 'K'), t('EventEmitter', 'CL', 'italic'), t(') {', 'P')],
+    [t('  let ', 'K'), t('attempt', 'JL'), t(' = ', 'K'), t('0', 'N'), t(';', 'K')],
+    [t('  const ', 'K'), t('socket', 'JL'), t(' = ', 'K'), t('new ', 'K'), t('WebSocket', 'CL', 'italic'), t('(', 'P'), t('url', 'JP', 'underline'), t(');', 'K')],
     [],
-    [t('  socket', JL), t('.', K), t('onmessage', JM), t(' = ', K), t('(', P), t('ev', JP, 'underline'), t(') => {', P)],
-    [t('    const ', K), t('state', JL), t(': ', K), t('DeviceState', TI, 'italic'), t(' = ', K), t('JSON', CL, 'italic'), t('.', K), t('parse', JM), t('(', P), t('ev', JP, 'underline'), t('.', K), t('data', PF), t(');', K)],
-    [t('    bus', JP, 'underline'), t('.', K), t('emit', JM), t('(', P), t('`device:${', S), t('state', JL), t('.', K), t('id', PF), t('}`', S), t(', ', K), t('state', JL), t(');', K)],
-    [t('  };', P)],
+    [t('  socket', 'JL'), t('.', 'K'), t('onmessage', 'JM'), t(' = ', 'K'), t('(', 'P'), t('ev', 'JP', 'underline'), t(') => {', 'P')],
+    [t('    const ', 'K'), t('state', 'JL'), t(': ', 'K'), t('DeviceState', 'TI', 'italic'), t(' = ', 'K'), t('JSON', 'CL', 'italic'), t('.', 'K'), t('parse', 'JM'), t('(', 'P'), t('ev', 'JP', 'underline'), t('.', 'K'), t('data', 'PF'), t(');', 'K')],
+    [t('    bus', 'JP', 'underline'), t('.', 'K'), t('emit', 'JM'), t('(', 'P'), t('`device:${', 'S'), t('state', 'JL'), t('.', 'K'), t('id', 'PF'), t('}`', 'S'), t(', ', 'K'), t('state', 'JL'), t(');', 'K')],
+    [t('  };', 'P')],
     [],
-    [t('  socket', JL), t('.', K), t('onclose', JM), t(' = ', K), t('() => ', P), t('setTimeout', JF, 'italic'), t('(', P), t('() => ', P), t('connect', JF, 'italic'), t('(', P), t('url', JP, 'underline'), t(', ', K), t('bus', JP, 'underline'), t('), ', P), t('RETRY_MS', JG, 'bold italic'), t(' * ', K), t('++', K), t('attempt', JL), t(');', K)],
-    [t('}', P)],
+    [t('  socket', 'JL'), t('.', 'K'), t('onclose', 'JM'), t(' = ', 'K'), t('() => ', 'P'), t('setTimeout', 'JF', 'italic'), t('(', 'P'), t('() => ', 'P'), t('connect', 'JF', 'italic'), t('(', 'P'), t('url', 'JP', 'underline'), t(', ', 'K'), t('bus', 'JP', 'underline'), t('), ', 'P'), t('RETRY_MS', 'JG', 'bold italic'), t(' * ', 'K'), t('++', 'K'), t('attempt', 'JL'), t(');', 'K')],
+    [t('}', 'P')],
 ]
 
 FONT = "'JetBrains Mono','SF Mono',Menlo,Consolas,monospace"
 CH, LH, FS = 8.4, 22, 14  # char width, line height, font size
 
-def render(lines, filename, tree, out):
+def render(C, PAL, lines, filename, tree, out):
+    FG, BG = C['editor.foreground'], C['editor.background']
+    SIDE, ACT, BORDER, ACC = C['sideBar.background'], C['activityBar.background'], C['sideBar.border'], C['tab.activeBorderTop']
+    DIM, LN = C['sideBar.foreground'], C['editorLineNumber.foreground']
     W, ACTW, SIDEW, TABH, STATH = 1080, 48, 210, 36, 24
     H = TABH + LH * (len(lines) + 1) + 20 + STATH
     EX = ACTW + SIDEW  # editor x
@@ -110,7 +111,7 @@ def render(lines, filename, tree, out):
         svg.append(f'<text x="{EX + 42}" y="{y}" fill="{LN}" text-anchor="end" font-size="12">{i + 1}</text>')
         x = EX + 60
         for text, color, style in line:
-            attrs = f' fill="{color}"'
+            attrs = f' fill="{PAL[color]}"'
             if 'bold' in style: attrs += ' font-weight="bold"'
             if 'italic' in style: attrs += ' font-style="italic"'
             if 'underline' in style: attrs += ' text-decoration="underline"'
@@ -124,10 +125,17 @@ def render(lines, filename, tree, out):
     svg.append('</svg>')
     open(os.path.join(ROOT, 'assets', out), 'w').write('\n'.join(svg))
 
-render(PHP, 'FeeCalculator.php', [(0, '▾ pulse', False), (1, '▾ src', False), (2, '▾ Service', False), (3, 'FeeCalculator.php', True), (3, 'Calculator.php', False), (2, '▸ Http', False), (1, '▸ tests', False), (1, 'composer.json', False)], 'preview-php.svg')
-render(TS, 'socket.ts', [(0, '▾ garm-hub-web', False), (1, '▾ src', False), (2, 'socket.ts', True), (2, 'state.ts', False), (2, 'main.ts', False), (1, '▸ public', False), (1, 'package.json', False), (1, 'tsconfig.json', False)], 'preview-ts.svg')
+PHP_TREE = [(0, '▾ pulse', False), (1, '▾ src', False), (2, '▾ Service', False), (3, 'FeeCalculator.php', True), (3, 'Calculator.php', False), (2, '▸ Http', False), (1, '▸ tests', False), (1, 'composer.json', False)]
+TS_TREE = [(0, '▾ garm-hub-web', False), (1, '▾ src', False), (2, 'socket.ts', True), (2, 'state.ts', False), (2, 'main.ts', False), (1, '▸ public', False), (1, 'package.json', False), (1, 'tsconfig.json', False)]
+for suffix, PAL, fn in (('', DARK, 'monokai-navy-color-theme.json'), ('-light', LIGHT, 'monokai-navy-light-color-theme.json')):
+    C = json.load(open(os.path.join(ROOT, 'themes', fn)))['colors']
+    render(C, PAL, PHP, 'FeeCalculator.php', PHP_TREE, f'preview-php{suffix}.svg')
+    render(C, PAL, TS, 'socket.ts', TS_TREE, f'preview-ts{suffix}.svg')
 
-# palette strip
+# palette strip (dark)
+C = json.load(open(os.path.join(ROOT, 'themes', 'monokai-navy-color-theme.json')))['colors']
+BG, SIDE, ACT, BORDER, FG = C['editor.background'], C['sideBar.background'], C['activityBar.background'], C['sideBar.border'], C['editor.foreground']
+CM, K, S, N, F, CL, PV, PF, PP, PC, PI = (DARK[k] for k in 'CM K S N F CL PV PF PP PC PI'.split())
 sw = [('bg', BG), ('sidebar', SIDE), ('chrome', ACT), ('border', BORDER), ('fg', FG), ('comment', CM), ('keyword', K), ('string', S),
       ('number', N), ('function', F), ('class', CL), ('php $var', PV), ('php field', PF), ('php param', PP), ('php const', PC), ('php iface', PI)]
 n = len(sw); cw = 60; W, H = cw * n, 74

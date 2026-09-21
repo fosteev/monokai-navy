@@ -3,7 +3,7 @@
   "displayName": "Monokai Navy",
   "description": "Monokai (Sublime Text 3 flavour) on a deep navy background, ported from a PhpStorm scheme",
   "publisher": "fosteev",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -28,6 +28,11 @@
         "label": "Monokai Navy",
         "uiTheme": "vs-dark",
         "path": "./themes/monokai-navy-color-theme.json"
+      },
+      {
+        "label": "Monokai Navy Light",
+        "uiTheme": "vs",
+        "path": "./themes/monokai-navy-light-color-theme.json"
       }
     ]
   }
