@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Monokai Navy White: pure white editor with neutral grey chrome, derived from Light (`tools/variants.json`, `"base": "light"`).
+
 ## 1.2.0
 
 - Grey and Pink (plum) workbench variants next to Blue: same syntax colours, different ramp (`tools/variants.json`).

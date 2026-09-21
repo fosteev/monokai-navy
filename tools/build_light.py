@@ -85,5 +85,21 @@ colors = {
 }
 light = {'$schema': 'vscode://schemas/color-theme', 'name': 'Monokai Navy Light', 'type': 'light', 'semanticHighlighting': True,
          'colors': colors, 'tokenColors': tokens, 'semanticTokenColors': semantic}
-json.dump(light, open(os.path.join(ROOT, 'themes', 'monokai-navy-light-color-theme.json'), 'w'), indent=2)
+with open(os.path.join(ROOT, 'themes', 'monokai-navy-light-color-theme.json'), 'w') as f:
+    json.dump(light, f, indent=2); f.write('\n')
 print('light theme written', len(tokens), 'rules')
+
+# Variants derived from Light (tools/variants.json entries with "base": "light"): recolour the workbench only
+import re
+HEX = re.compile(r'#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?$')
+variants = json.load(open(os.path.join(ROOT, 'tools', 'variants.json')))
+for vid, v in variants.items():
+    if vid.startswith('$') or v.get('base') != 'light': continue
+    cmap = {k.lower(): val for k, val in v['map'].items()}
+    def rc(val):
+        mm = HEX.match(val)
+        return val if not mm else cmap.get('#' + mm.group(1).lower(), '#' + mm.group(1)) + (mm.group(2) or '')
+    out = {**light, 'name': v['label'], 'colors': {k: rc(val) for k, val in colors.items()}}
+    with open(os.path.join(ROOT, 'themes', v['file']), 'w') as f:
+        json.dump(out, f, indent=2); f.write('\n')
+    print(vid, 'theme written')

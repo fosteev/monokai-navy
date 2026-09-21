@@ -226,7 +226,7 @@ def recolour(value, cmap):
     return cmap.get('#' + m.group(1).lower(), '#' + m.group(1)) + (m.group(2) or '')
 os.makedirs(os.path.join(OUT, 'themes'), exist_ok=True)
 for vid, v in variants.items():
-    if vid.startswith('$'): continue
+    if vid.startswith('$') or v.get('base'): continue   # light-based variants: tools/build_light.py
     cmap = {k.lower(): val for k, val in v['map'].items()}
     out = {**theme, 'name': v['label'], 'colors': {k: recolour(val, cmap) for k, val in theme['colors'].items()}}
     with open(os.path.join(OUT, 'themes', v['file']), 'w') as f:
@@ -242,4 +242,4 @@ if not os.path.exists(pkg):  # never clobber a hand-maintained manifest
     }, open(pkg, 'w'), indent=2)
 print('tokenColors:', len(theme['tokenColors']), 'semantic:', len(theme['semanticTokenColors']),
       'colors:', len(colors_out), 'navy overrides:', len(navy.get('colors', {})),
-      'variants:', ', '.join(k for k in variants if not k.startswith('$')))
+      'variants:', ', '.join(k for k, v in variants.items() if not k.startswith('$') and not v.get('base')))
