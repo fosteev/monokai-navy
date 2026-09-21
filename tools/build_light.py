@@ -8,7 +8,7 @@ dark = json.load(open(os.path.join(ROOT, 'themes', 'monokai-navy-color-theme.jso
 # dark token colour -> light token colour (contrast-checked against #f8fafc)
 MAP = {
     '#f8f8f2': '#1b2733', '#f9faf4': '#1b2733', '#cfcfc2': '#1b2733', '#000000': '#1b2733', '#f9eff9': '#1b2733',
-    '#75715e': '#8a94a0', '#88846f': '#8a94a0',
+    '#75715e': '#7a8590', '#88846f': '#7a8590',
     '#f92672': '#d81b60', '#e6db74': '#9a7d0a', '#ae81ff': '#6f42c1', '#ae81ffa0': '#6f42c1a0', '#b267e6': '#6f42c1',
     '#a6e22e': '#4f8a10', '#a7ec21': '#4f8a10', '#a8c023': '#4f8a10',
     '#66d9ef': '#0b7fa5', '#65d8ee': '#0b7fa5', '#6796e6': '#1565c0', '#fd971f': '#c25e00', '#cd9731': '#c25e00',
@@ -17,7 +17,7 @@ MAP = {
     '#00c0b0': '#00897b', '#98ffe0': '#2e7d6e', '#e9ff65': '#8d6e00', '#ff0057': '#c50045', '#00ffa6': '#00875a',
     # js / ts
     '#51f611': '#2e8b00', '#2293ff': '#1565c0', '#00d7ff': '#0277bd', '#f88908': '#e65100', '#fff21c': '#b58a00',
-    '#c70000': '#c62828', '#e30000': '#c62828',
+    '#c70000': '#c62828', '#e30000': '#c62828', '#ff5555': '#c62828',
 }
 def m(v): return MAP.get(v.lower(), v) if isinstance(v, str) else v
 

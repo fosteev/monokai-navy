@@ -1,0 +1,14 @@
+{
+  "$comment": "Workbench colour variants. Keys are the Blue (reference) hexes used in navy.json; each variant maps them to its own ramp. Order: L0 editor, L1 tool windows, L2 frame bars, L3 popups/inputs, L4 list selection, border, line highlight, selection, widget selection, whitespace, scrollbar hover/active, dim fg, mid fg, dimmer fg, line numbers, dark badge text.",
+  "blue": {"label": "Monokai Navy", "file": "monokai-navy-color-theme.json", "map": {}},
+  "grey": {"label": "Monokai Navy Grey", "file": "monokai-navy-grey-color-theme.json", "map": {
+    "#0b1823": "#131517", "#112232": "#1b1e21", "#152a3d": "#202428", "#183044": "#24282d", "#1f3c55": "#2d333a",
+    "#24425c": "#363d45", "#0f1f2e": "#181b1e", "#22405c": "#343d47", "#2a4d6e": "#3d4854", "#33485e": "#3c444d",
+    "#2c4f6e": "#414a54", "#35608a": "#4e5966", "#8a97a8": "#9aa1a8", "#c9d1da": "#d0d4d8", "#6f8196": "#7c848c",
+    "#4a5b6e": "#565d65", "#060e16": "#131517"}},
+  "pink": {"label": "Monokai Navy Pink", "file": "monokai-navy-pink-color-theme.json", "map": {
+    "#0b1823": "#1a0f18", "#112232": "#241626", "#152a3d": "#2b1b2e", "#183044": "#302035", "#1f3c55": "#3d2942",
+    "#24425c": "#48324d", "#0f1f2e": "#20131f", "#22405c": "#4b2f50", "#2a4d6e": "#573a5c", "#33485e": "#4a3450",
+    "#2c4f6e": "#563b5c", "#35608a": "#6b4a72", "#8a97a8": "#b39cb0", "#c9d1da": "#ddd0da", "#6f8196": "#907c8e",
+    "#4a5b6e": "#654f69", "#060e16": "#1a0f18"}}
+}

@@ -127,7 +127,10 @@ def render(C, PAL, lines, filename, tree, out):
 
 PHP_TREE = [(0, '▾ pulse', False), (1, '▾ src', False), (2, '▾ Service', False), (3, 'FeeCalculator.php', True), (3, 'Calculator.php', False), (2, '▸ Http', False), (1, '▸ tests', False), (1, 'composer.json', False)]
 TS_TREE = [(0, '▾ garm-hub-web', False), (1, '▾ src', False), (2, 'socket.ts', True), (2, 'state.ts', False), (2, 'main.ts', False), (1, '▸ public', False), (1, 'package.json', False), (1, 'tsconfig.json', False)]
-for suffix, PAL, fn in (('', DARK, 'monokai-navy-color-theme.json'), ('-light', LIGHT, 'monokai-navy-light-color-theme.json')):
+VARIANTS = json.load(open(os.path.join(ROOT, 'tools', 'variants.json')))   # dark workbench variants
+JOBS = [('' if vid == 'blue' else '-' + vid, DARK, v['file']) for vid, v in VARIANTS.items() if not vid.startswith('$')]
+JOBS.append(('-light', LIGHT, 'monokai-navy-light-color-theme.json'))
+for suffix, PAL, fn in JOBS:
     C = json.load(open(os.path.join(ROOT, 'themes', fn)))['colors']
     render(C, PAL, PHP, 'FeeCalculator.php', PHP_TREE, f'preview-php{suffix}.svg')
     render(C, PAL, TS, 'socket.ts', TS_TREE, f'preview-ts{suffix}.svg')
@@ -147,4 +150,14 @@ for i, (name, col) in enumerate(sw):
     svg.append(f'<text x="{x + cw / 2}" y="69" fill="#8a97a8" text-anchor="middle">{col}</text>')
 svg.append('</svg>')
 open(os.path.join(ROOT, 'assets', 'palette.svg'), 'w').write('\n'.join(svg))
-print('ok')
+
+# Marketplace (vsce) rejects SVG images in README -> rasterise to PNG at 2x (needs rsvg-convert: brew install librsvg)
+import shutil, subprocess
+if shutil.which('rsvg-convert'):
+    for f in sorted(os.listdir(os.path.join(ROOT, 'assets'))):
+        if f.endswith('.svg'):
+            src = os.path.join(ROOT, 'assets', f)
+            subprocess.run(['rsvg-convert', '-z', '2', '-o', src[:-4] + '.png', src], check=True)
+    print('ok (svg + png)')
+else:
+    print('ok (svg only; install librsvg for png)')

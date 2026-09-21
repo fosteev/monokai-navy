@@ -4,18 +4,33 @@ Monokai as I have it in PhpStorm, ported to VS Code — the classic Sublime Text
 on a deep navy `#0b1823` instead of the usual olive-black, with the whole workbench
 (sidebar, tabs, panels, terminal, inputs) painted in the same navy family.
 
-Two variants: **Monokai Navy** (dark) and **Monokai Navy Light** — the same scopes and the same
-family of hues, re-tuned for a white page.
+Four variants: **Monokai Navy** (blue), **Monokai Navy Grey**, **Monokai Navy Pink** (plum)
+share the syntax colours and differ only in the workbench ramp; **Monokai Navy Light** is the
+same family of hues re-tuned for a white page.
 
-![PHP, dark](assets/preview-php.svg)
+![PHP, navy](assets/preview-php.png)
 
-![TypeScript, dark](assets/preview-ts.svg)
+![TypeScript, navy](assets/preview-ts.png)
 
-![PHP, light](assets/preview-php-light.svg)
+![Palette](assets/palette.png)
 
-![TypeScript, light](assets/preview-ts-light.svg)
+## Variants
 
-![Palette](assets/palette.svg)
+The editor is always the darkest surface; sidebar, frame and popups step up from it like
+JetBrains tool windows. Pick one with `Cmd+K Cmd+T`:
+
+| Theme | Editor | Tool windows | Frame | Popups |
+|---|---|---|---|---|
+| **Monokai Navy** (blue) | `#0b1823` | `#112232` | `#152a3d` | `#183044` |
+| **Monokai Navy Grey** | `#131517` | `#1b1e21` | `#202428` | `#24282d` |
+| **Monokai Navy Pink** (plum) | `#1a0f18` | `#241626` | `#2b1b2e` | `#302035` |
+| **Monokai Navy Light** | `#f8fafc` | `#eef2f6` | `#e3e9ef` | `#ffffff` |
+
+![PHP, grey](assets/preview-php-grey.png)
+
+![TypeScript, pink](assets/preview-ts-pink.png)
+
+![PHP, light](assets/preview-php-light.png)
 
 ## What's inside
 
@@ -27,8 +42,8 @@ family of hues, re-tuned for a white page.
 - **JS / TS** are coloured through semantic tokens from the built-in TypeScript server:
   locals `#51f611`, module-level variables `#2293ff` **bold italic**, parameters
   `#00d7ff` underlined, methods `#f88908`, functions `#fff21c` *italic*, interfaces red.
-- **Workbench**: editor `#0b1823`, sidebar `#08131c`, activity/status bar `#060e16`,
-  widgets `#10202f`, borders `#1a2f44`, accent `#66d9ef`.
+- **Workbench**: navy ramp `#0b1823` → `#112232` → `#152a3d` → `#183044`, list selection
+  `#1f3c55`, borders `#24425c`, accent `#66d9ef` (see the variants table for the others).
 - **Terminal**: a proper Monokai ANSI palette on the editor background.
 
 ## Install
@@ -39,10 +54,10 @@ Not on the Marketplace yet. From this repo:
 git clone https://github.com/fosteev/monokai-navy
 cd monokai-navy
 npx @vscode/vsce package
-code --install-extension monokai-navy-1.1.0.vsix
+code --install-extension monokai-navy-1.2.0.vsix
 ```
 
-Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy** or **Monokai Navy Light**.
+Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy** / **Grey** / **Pink** / **Light**.
 
 Recommended companions: `"terminal.integrated.minimumContrastRatio": 1` (otherwise
 VS Code re-tints terminal colours), and JetBrains Mono as `editor.fontFamily` — that is
@@ -57,13 +72,18 @@ built-in Monokai as the fallback for scopes the scheme does not define:
 python3 tools/icls2vscode.py \
   ~/Library/Application\ Support/JetBrains/PhpStorm*/colors/My\ Scheme.icls \
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/extensions/theme-monokai/themes/monokai-color-theme.json \
-  ./build
+  .          # or ./build to keep the repo untouched
+python3 tools/build_light.py && python3 tools/check_theme.py && python3 tools/render_preview.py
 ```
 
-`tools/source.icls` is the scheme this theme came from; the navy workbench colours were
-layered on top by hand. `tools/render_preview.py` redraws the pictures above from the
-theme files, so they never drift from the actual colours. `tools/build_light.py` derives the
-light variant from the dark one through a dark→light colour map.
+`tools/source.icls` is the scheme this theme came from. The navy workbench colours and a
+few fixes on top of the PhpStorm values live in `tools/navy.json` — it is applied as the
+last layer, so edit it (not `themes/`) and regenerate. `tools/variants.json` maps the Blue
+ramp to the Grey and Pink ones and the converter writes one theme file per variant;
+`tools/build_light.py` then derives the light variant from the blue one through a
+dark→light colour map. `tools/check_theme.py` lints every theme file (duplicate scopes,
+low-contrast tokens, olive leftovers), and `tools/render_preview.py` redraws the pictures
+above (SVG + PNG) from the theme files, so they never drift from the actual colours.
 
 ## Notes
 

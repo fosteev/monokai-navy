@@ -36,7 +36,7 @@
 <text x="628.8" y="74" fill="#d81b60" xml:space="preserve">;</text>
 <text x="300" y="96" fill="#a0aab4" text-anchor="end" font-size="12">2</text>
 <text x="300" y="118" fill="#a0aab4" text-anchor="end" font-size="12">3</text>
-<text x="318.0" y="118" fill="#8a94a0" xml:space="preserve">// Device state pushed by the hub over websocket</text>
+<text x="318.0" y="118" fill="#7a8590" xml:space="preserve">// Device state pushed by the hub over websocket</text>
 <text x="300" y="140" fill="#a0aab4" text-anchor="end" font-size="12">4</text>
 <text x="318.0" y="140" fill="#d81b60" xml:space="preserve">export interface </text>
 <text x="460.8" y="140" fill="#c62828" font-style="italic" xml:space="preserve">DeviceState</text>

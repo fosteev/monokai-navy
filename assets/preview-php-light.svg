@@ -35,11 +35,11 @@
 <text x="494.4" y="118" fill="#d81b60" xml:space="preserve">;</text>
 <text x="300" y="140" fill="#a0aab4" text-anchor="end" font-size="12">4</text>
 <text x="300" y="162" fill="#a0aab4" text-anchor="end" font-size="12">5</text>
-<text x="318.0" y="162" fill="#8a94a0" xml:space="preserve">/**</text>
+<text x="318.0" y="162" fill="#7a8590" xml:space="preserve">/**</text>
 <text x="300" y="184" fill="#a0aab4" text-anchor="end" font-size="12">6</text>
-<text x="318.0" y="184" fill="#8a94a0" xml:space="preserve"> * Recalculates camera fees for the billing period.</text>
+<text x="318.0" y="184" fill="#7a8590" xml:space="preserve"> * Recalculates camera fees for the billing period.</text>
 <text x="300" y="206" fill="#a0aab4" text-anchor="end" font-size="12">7</text>
-<text x="318.0" y="206" fill="#8a94a0" xml:space="preserve"> */</text>
+<text x="318.0" y="206" fill="#7a8590" xml:space="preserve"> */</text>
 <text x="300" y="228" fill="#a0aab4" text-anchor="end" font-size="12">8</text>
 <text x="318.0" y="228" fill="#d81b60" xml:space="preserve">final class </text>
 <text x="418.8" y="228" fill="#0b7fa5" font-style="italic" xml:space="preserve">FeeCalculator</text>

@@ -1,3 +1,4 @@
 .gitignore
 tools/
 *.vsix
+assets/*.svg

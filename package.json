@@ -1,9 +1,9 @@
 {
   "name": "monokai-navy",
   "displayName": "Monokai Navy",
-  "description": "Monokai (Sublime Text 3 flavour) on a deep navy background, ported from a PhpStorm scheme",
+  "description": "Monokai (Sublime Text 3 flavour) ported from a PhpStorm scheme \u2014 navy, grey, plum or light workbench",
   "publisher": "fosteev",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,11 +16,14 @@
     "Themes"
   ],
   "keywords": [
-    "monokai",
-    "phpstorm",
-    "jetbrains",
     "dark",
-    "navy"
+    "grey",
+    "jetbrains",
+    "light",
+    "monokai",
+    "navy",
+    "phpstorm",
+    "pink"
   ],
   "contributes": {
     "themes": [
@@ -28,6 +31,16 @@
         "label": "Monokai Navy",
         "uiTheme": "vs-dark",
         "path": "./themes/monokai-navy-color-theme.json"
+      },
+      {
+        "label": "Monokai Navy Grey",
+        "uiTheme": "vs-dark",
+        "path": "./themes/monokai-navy-grey-color-theme.json"
+      },
+      {
+        "label": "Monokai Navy Pink",
+        "uiTheme": "vs-dark",
+        "path": "./themes/monokai-navy-pink-color-theme.json"
       },
       {
         "label": "Monokai Navy Light",

@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """Convert a JetBrains .icls scheme into a VS Code color-theme extension.
-Base: VS Code built-in Monokai (UI chrome), overridden by the .icls values."""
-import json, os, sys, xml.etree.ElementTree as ET
+Layers, later wins: VS Code built-in Monokai (chrome + TextMate fallback)
+  -> values from the .icls  -> tools/navy.json (hand-made navy workbench + fixes).
+Usage: icls2vscode.py SCHEME.icls BUILTIN_MONOKAI.json OUT_DIR [navy.json]"""
+import json, os, re, sys, xml.etree.ElementTree as ET
 
 ICLS, BASE, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
+NAVY = sys.argv[4] if len(sys.argv) > 4 else os.path.join(os.path.dirname(os.path.abspath(__file__)), 'navy.json')
 root = ET.parse(ICLS).getroot()
 
-def hexc(v):  # JetBrains strips leading zeros: '55' -> '#000055'
-    v = v.strip()
-    return '#' + v.zfill(6).lower() if v else None
+def hexc(v):  # JetBrains strips leading zeros: '55' -> '#000055'; '0' / '' mean "inherit"
+    v = (v or '').strip()
+    if not v or v == '0':
+        return None
+    return '#' + v.zfill(6).lower()
 
 colors = {o.get('name'): hexc(o.get('value')) for o in root.find('colors')}
 attrs = {}
@@ -19,9 +24,11 @@ for o in root.find('attributes'):
     attrs[o.get('name')] = {x.get('name'): x.get('value') for x in v}
 
 def style(name):
-    a = attrs.get(name, {})
+    # name may be a tuple: first attribute that defines a foreground wins
+    names = name if isinstance(name, tuple) else (name,)
+    a = next((attrs[n] for n in names if hexc(attrs.get(n, {}).get('FOREGROUND'))), attrs.get(names[0], {}))
     s = {}
-    if a.get('FOREGROUND'): s['foreground'] = hexc(a['FOREGROUND'])
+    if hexc(a.get('FOREGROUND')): s['foreground'] = hexc(a['FOREGROUND'])
     ft = int(a.get('FONT_TYPE', 0)); fs = []
     if ft & 1: fs.append('bold')
     if ft & 2: fs.append('italic')
@@ -52,7 +59,7 @@ TM = [
     ('DEFAULT_FUNCTION_CALL', 'Function call', ['entity.name.function', 'support.function', 'meta.function-call entity.name.function', 'variable.function']),
     ('DEFAULT_FUNCTION_DECLARATION', 'Function decl', ['meta.function entity.name.function']),
     ('DEFAULT_CLASS_NAME', 'Class', ['entity.name.type', 'entity.name.class', 'support.class', 'entity.other.inherited-class', 'entity.name.type.class', 'support.type']),
-    ('DEFAULT_INTERFACE_NAME', 'Interface', ['entity.name.type.interface']),
+    (('DEFAULT_INTERFACE_NAME', 'INTERFACE_NAME_ATTRIBUTES'), 'Interface', ['entity.name.type.interface']),
     ('DEFAULT_PARAMETER', 'Parameter', ['variable.parameter']),
     ('DEFAULT_LOCAL_VARIABLE', 'Variable', ['variable', 'variable.other', 'variable.other.readwrite']),
     ('DEFAULT_INSTANCE_FIELD', 'Field', ['variable.other.property', 'variable.other.object.property']),
@@ -94,7 +101,7 @@ SEM = {
     'variable': 'DEFAULT_LOCAL_VARIABLE', 'parameter': 'DEFAULT_PARAMETER',
     'property': 'DEFAULT_INSTANCE_FIELD', 'function': 'DEFAULT_FUNCTION_CALL',
     'method': 'DEFAULT_INSTANCE_METHOD', 'class': 'DEFAULT_CLASS_NAME',
-    'interface': 'DEFAULT_INTERFACE_NAME', 'enum': 'ENUM_NAME_ATTRIBUTES',
+    'interface': ('DEFAULT_INTERFACE_NAME', 'INTERFACE_NAME_ATTRIBUTES'), 'enum': 'ENUM_NAME_ATTRIBUTES',
     'typeParameter': 'TYPE_PARAMETER_NAME_ATTRIBUTES',
     'variable.readonly': 'DEFAULT_CONSTANT', 'property.static': 'DEFAULT_STATIC_FIELD',
     'method.static': 'DEFAULT_STATIC_METHOD',
@@ -178,22 +185,61 @@ ui = {
 }
 ui = {k: v for k, v in ui.items() if v}
 
+def scopes_of(rule):
+    sc = rule.get('scope')
+    if sc is None: return None
+    return [x.strip() for x in (sc if isinstance(sc, list) else sc.split(',')) if x.strip()]
+
+def merge_tokens(base_rules, overrides):
+    """Later layer wins: strip its scopes out of earlier rules, drop rules left empty."""
+    taken = {x for r in overrides for x in (scopes_of(r) or [])}
+    out = []
+    for r in base_rules:
+        sc = scopes_of(r)
+        if sc is None:
+            out.append(r); continue
+        keep = [x for x in sc if x not in taken]
+        if keep:
+            out.append({**r, 'scope': keep})
+    return out + overrides
+
+navy = json.load(open(NAVY)) if os.path.exists(NAVY) else {}
+colors_out = {**base['colors'], **ui, **navy.get('colors', {})}
+for k in navy.get('drop', []):
+    colors_out.pop(k, None)
+
 theme = {
     '$schema': 'vscode://schemas/color-theme',
     'name': 'Monokai Navy',
     'type': 'dark',
     'semanticHighlighting': True,
-    'colors': {**base['colors'], **ui},
-    'tokenColors': base['tokenColors'] + token_colors,
-    'semanticTokenColors': semantic,
+    'colors': colors_out,
+    'tokenColors': merge_tokens(merge_tokens(base['tokenColors'], token_colors), navy.get('tokenColors', [])),
+    'semanticTokenColors': {**semantic, **navy.get('semanticTokenColors', {})},
 }
+VARIANTS = os.path.join(os.path.dirname(NAVY), 'variants.json')
+variants = json.load(open(VARIANTS)) if os.path.exists(VARIANTS) else {'blue': {'label': 'Monokai Navy', 'file': 'monokai-navy-color-theme.json', 'map': {}}}
+HEX = re.compile(r'#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?$')
+def recolour(value, cmap):
+    m = HEX.match(value)
+    if not m: return value
+    return cmap.get('#' + m.group(1).lower(), '#' + m.group(1)) + (m.group(2) or '')
 os.makedirs(os.path.join(OUT, 'themes'), exist_ok=True)
-json.dump(theme, open(os.path.join(OUT, 'themes', 'monokai-navy-color-theme.json'), 'w'), indent=2)
-json.dump({
-    'name': 'monokai-navy', 'displayName': 'Monokai Navy',
-    'publisher': 'fosteev', 'version': '1.0.0',
-    'engines': {'vscode': '^1.80.0'}, 'categories': ['Themes'],
-    'contributes': {'themes': [{'label': 'Monokai Navy', 'uiTheme': 'vs-dark',
-                                'path': './themes/monokai-navy-color-theme.json'}]},
-}, open(os.path.join(OUT, 'package.json'), 'w'), indent=2)
-print('tokenColors:', len(token_colors), 'semantic:', len(semantic), 'ui overrides:', len(ui))
+for vid, v in variants.items():
+    if vid.startswith('$'): continue
+    cmap = {k.lower(): val for k, val in v['map'].items()}
+    out = {**theme, 'name': v['label'], 'colors': {k: recolour(val, cmap) for k, val in theme['colors'].items()}}
+    with open(os.path.join(OUT, 'themes', v['file']), 'w') as f:
+        json.dump(out, f, indent=2); f.write('\n')
+pkg = os.path.join(OUT, 'package.json')
+if not os.path.exists(pkg):  # never clobber a hand-maintained manifest
+    json.dump({
+        'name': 'monokai-navy', 'displayName': 'Monokai Navy',
+        'publisher': 'fosteev', 'version': '1.0.0',
+        'engines': {'vscode': '^1.80.0'}, 'categories': ['Themes'],
+        'contributes': {'themes': [{'label': 'Monokai Navy', 'uiTheme': 'vs-dark',
+                                    'path': './themes/monokai-navy-color-theme.json'}]},
+    }, open(pkg, 'w'), indent=2)
+print('tokenColors:', len(theme['tokenColors']), 'semantic:', len(theme['semanticTokenColors']),
+      'colors:', len(colors_out), 'navy overrides:', len(navy.get('colors', {})),
+      'variants:', ', '.join(k for k in variants if not k.startswith('$')))
