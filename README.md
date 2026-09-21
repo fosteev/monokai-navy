@@ -1,4 +1,4 @@
-# PhpStorm Monokai Navy — VS Code theme
+# Monokai Navy — VS Code theme
 
 Monokai (Sublime Text 3 flavour) as it looks in my PhpStorm, ported to VS Code:
 the editor and the whole workbench sit on a dark navy `#0b1823` instead of the classic `#272822`.
@@ -15,13 +15,13 @@ the editor and the whole workbench sit on a dark navy `#0b1823` instead of the c
 Marketplace: not published yet. From source:
 
 ```sh
-git clone https://github.com/fosteev/vscode-phpstorm-monokai ~/.vscode/extensions/fosteev.phpstorm-monokai
+git clone https://github.com/fosteev/monokai-navy ~/.vscode/extensions/fosteev.monokai-navy
 ```
 
-Restart VS Code, then `Cmd+K Cmd+T` → **PhpStorm Monokai**.
+Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy**.
 
 Or build a `.vsix` with `npx @vscode/vsce package` and install it via
-`code --install-extension phpstorm-monokai-1.0.0.vsix`.
+`code --install-extension monokai-navy-1.0.0.vsix`.
 
 ## Regenerating from PhpStorm
 
