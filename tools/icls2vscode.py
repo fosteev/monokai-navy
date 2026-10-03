@@ -224,11 +224,20 @@ def recolour(value, cmap):
     m = HEX.match(value)
     if not m: return value
     return cmap.get('#' + m.group(1).lower(), '#' + m.group(1)) + (m.group(2) or '')
+def resolved(v):  # "extends": inherit map / tokens / colors from another variant, own entries win
+    p = resolved(variants[v['extends']]) if v.get('extends') else {}
+    return {**p, **v, **{f: {**p.get(f, {}), **v.get(f, {})} for f in ('map', 'tokens', 'colors')}}
 os.makedirs(os.path.join(OUT, 'themes'), exist_ok=True)
 for vid, v in variants.items():
     if vid.startswith('$') or v.get('base'): continue   # light-based variants: tools/build_light.py
+    v = resolved(v)
     cmap = {k.lower(): val for k, val in v['map'].items()}
-    out = {**theme, 'name': v['label'], 'colors': {k: recolour(val, cmap) for k, val in theme['colors'].items()}}
+    tmap = {k.lower(): val for k, val in v.get('tokens', {}).items()}   # optional: the variant's own syntax palette
+    out = {**theme, 'name': v['label'], 'colors': {**{k: recolour(val, {**tmap, **cmap}) for k, val in theme['colors'].items()}, **v.get('colors', {})}}
+    if tmap:
+        st = lambda s: {**s, **{f: recolour(s[f], tmap) for f in ('foreground', 'background') if f in s}}
+        out['tokenColors'] = [{**r, 'settings': st(r['settings'])} for r in theme['tokenColors']]
+        out['semanticTokenColors'] = {k: st(s) for k, s in theme['semanticTokenColors'].items()}
     with open(os.path.join(OUT, 'themes', v['file']), 'w') as f:
         json.dump(out, f, indent=2); f.write('\n')
 pkg = os.path.join(OUT, 'package.json')

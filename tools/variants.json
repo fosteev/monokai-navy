@@ -1,5 +1,5 @@
 {
-  "$comment": "Workbench colour variants. Keys are the Blue (reference) hexes used in navy.json; each variant maps them to its own ramp. Order: L0 editor, L1 tool windows, L2 frame bars, L3 popups/inputs, L4 list selection, border, line highlight, selection, widget selection, whitespace, scrollbar hover/active, dim fg, mid fg, dimmer fg, line numbers, dark badge text. Entries with \"base\": \"light\" are derived from the Light theme by tools/build_light.py instead of the converter.",
+  "$comment": "Workbench colour variants. Keys are the Blue (reference) hexes used in navy.json; each variant maps them to its own ramp. Order: L0 editor, L1 tool windows, L2 frame bars, L3 popups/inputs, L4 list selection, border, line highlight, selection, widget selection, whitespace, scrollbar hover/active, dim fg, mid fg, dimmer fg, line numbers, dark badge text. Optional per variant: \"tokens\" — its own syntax palette (Monokai hex -> hex, applied to token colours and to the workbench), \"colors\" — per-key workbench overrides applied last. \"extends\": another variant's id — inherit its map / tokens / colors, own entries win. Entries with \"base\": \"light\" are derived from the Light theme by tools/build_light.py instead of the converter.",
   "blue": {
     "label": "Monokai Navy",
     "file": "monokai-navy-color-theme.json",
@@ -49,6 +49,95 @@
       "#6f8196": "#907c8e",
       "#4a5b6e": "#654f69",
       "#060e16": "#1a0f18"
+    }
+  },
+  "claude": {
+    "label": "Monokai Navy Claude",
+    "file": "monokai-navy-claude-color-theme.json",
+    "map": {
+      "#0b1823": "#111111",
+      "#112232": "#151515",
+      "#152a3d": "#1d1d1d",
+      "#183044": "#212121",
+      "#1f3c55": "#353535",
+      "#24425c": "#272727",
+      "#0f1f2e": "#181818",
+      "#22405c": "#3a3a3a",
+      "#2a4d6e": "#494948",
+      "#33485e": "#323232",
+      "#2c4f6e": "#494948",
+      "#35608a": "#5c5c5a",
+      "#8a97a8": "#86847e",
+      "#c9d1da": "#bbbaaf",
+      "#6f8196": "#797773",
+      "#4a5b6e": "#595853",
+      "#060e16": "#111111",
+      "#66d9ef": "#d97757",
+      "#1f5f78": "#c6613f",
+      "#2a7a99": "#d97757",
+      "#287bde": "#659ad9",
+      "#f92672": "#e5605e",
+      "#a1efe4": "#bcd1ca",
+      "#848528": "#311a00",
+      "#e2e22e": "#da9200"
+    },
+    "tokens": {
+      "#f8f8f2": "#f0efec",
+      "#f9faf4": "#f0efec",
+      "#f9eff9": "#f0efec",
+      "#cfcfc2": "#d1d0cd",
+      "#75715e": "#86847e",
+      "#f92672": "#d97757",
+      "#e6db74": "#e3c98b",
+      "#ae81ff": "#b0a5e8",
+      "#b267e6": "#b0a5e8",
+      "#a6e22e": "#b5cc6a",
+      "#a7ec21": "#b5cc6a",
+      "#a8c023": "#b5cc6a",
+      "#66d9ef": "#86acea",
+      "#65d8ee": "#86acea",
+      "#6796e6": "#6394e4",
+      "#fd971f": "#e8a95c",
+      "#cd9731": "#e8a95c",
+      "#f44747": "#e5605e",
+      "#ff0000": "#e5605e",
+      "#00c0b0": "#5fb8ad",
+      "#98ffe0": "#bcd1ca",
+      "#e9ff65": "#d4a27f",
+      "#ff0057": "#d4749a",
+      "#00ffa6": "#6fd3a5",
+      "#51f611": "#8ccf7e",
+      "#2293ff": "#6394e4",
+      "#00d7ff": "#a5dbe8",
+      "#f88908": "#e8a95c",
+      "#fff21c": "#f0cf5e",
+      "#ff5555": "#e8697a"
+    },
+    "colors": {
+      "terminal.ansiBlue": "#6394e4",
+      "terminal.ansiBrightBlue": "#86acea",
+      "editorIndentGuide.background1": "#272727",
+      "editorRuler.foreground": "#272727"
+    }
+  },
+  "claude-blue": {
+    "label": "Monokai Navy Claude Blue",
+    "file": "monokai-navy-claude-blue-color-theme.json",
+    "extends": "claude",
+    "map": {
+      "#66d9ef": "#6394e4",
+      "#1f5f78": "#2666d0",
+      "#2a7a99": "#407cde"
+    }
+  },
+  "claude-green": {
+    "label": "Monokai Navy Claude Green",
+    "file": "monokai-navy-claude-green-color-theme.json",
+    "extends": "claude",
+    "map": {
+      "#66d9ef": "#5dbb74",
+      "#1f5f78": "#2f8f4e",
+      "#2a7a99": "#3aa35c"
     }
   },
   "white": {

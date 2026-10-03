@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+- Monokai Navy Claude: the near-black neutral workbench of the Claude desktop app (`#111111` → `#212121`, colours sampled from the app) with a clay `#d97757` accent and its own syntax palette — clay keywords, manilla strings, olive functions, blue classes, heather numbers. Variants in `tools/variants.json` can now carry `"tokens"` (syntax palette), `"colors"` (per-key overrides) and `"extends"` (inherit another variant).
+- Monokai Navy Claude Blue / Claude Green: the Claude variant with a blue `#6394e4` or green `#5dbb74` workbench accent instead of clay.
+
 ## 1.3.0
 
 - Monokai Navy White: pure white editor with neutral grey chrome, derived from Light (`tools/variants.json`, `"base": "light"`).

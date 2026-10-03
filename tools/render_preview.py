@@ -128,7 +128,9 @@ def render(C, PAL, lines, filename, tree, out):
 PHP_TREE = [(0, '▾ pulse', False), (1, '▾ src', False), (2, '▾ Service', False), (3, 'FeeCalculator.php', True), (3, 'Calculator.php', False), (2, '▸ Http', False), (1, '▸ tests', False), (1, 'composer.json', False)]
 TS_TREE = [(0, '▾ garm-hub-web', False), (1, '▾ src', False), (2, 'socket.ts', True), (2, 'state.ts', False), (2, 'main.ts', False), (1, '▸ public', False), (1, 'package.json', False), (1, 'tsconfig.json', False)]
 VARIANTS = json.load(open(os.path.join(ROOT, 'tools', 'variants.json')))   # dark workbench variants
-JOBS = [('' if vid == 'blue' else '-' + vid, LIGHT if v.get('base') == 'light' else DARK, v['file'])
+def tokens_of(v):  # own syntax palette, inherited through "extends"
+    return {**(tokens_of(VARIANTS[v['extends']]) if v.get('extends') else {}), **v.get('tokens', {})}
+JOBS = [('' if vid == 'blue' else '-' + vid, LIGHT if v.get('base') == 'light' else {k: tokens_of(v).get(c, c) for k, c in DARK.items()}, v['file'])
         for vid, v in VARIANTS.items() if not vid.startswith('$')]
 JOBS.append(('-light', LIGHT, 'monokai-navy-light-color-theme.json'))
 for suffix, PAL, fn in JOBS:

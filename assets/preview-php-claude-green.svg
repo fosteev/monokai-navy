@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="674" viewBox="0 0 1080 674" font-family="'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="14">
+<rect width="1080" height="674" rx="10" fill="#111111"/>
+<rect width="48" height="650" fill="#1d1d1d"/>
+<rect x="48" width="210" height="650" fill="#151515"/>
+<rect x="258" width="1" height="650" fill="#272727"/>
+<rect x="14" y="14" width="20" height="20" rx="4" fill="none" stroke="#f0efec" stroke-width="1.8"/>
+<rect x="14" y="60" width="20" height="20" rx="4" fill="none" stroke="#bbbaaf" stroke-width="1.8"/>
+<rect x="14" y="106" width="20" height="20" rx="4" fill="none" stroke="#bbbaaf" stroke-width="1.8"/>
+<rect x="14" y="152" width="20" height="20" rx="4" fill="none" stroke="#bbbaaf" stroke-width="1.8"/>
+<rect x="14" y="198" width="20" height="20" rx="4" fill="none" stroke="#bbbaaf" stroke-width="1.8"/>
+<rect x="0" y="12" width="2" height="24" fill="#5dbb74"/>
+<text x="62" y="24" fill="#bbbaaf" font-size="11" letter-spacing="1">EXPLORER</text>
+<text x="62" y="52" fill="#bbbaaf" font-size="13">▾ pulse</text>
+<text x="76" y="74" fill="#bbbaaf" font-size="13">▾ src</text>
+<text x="90" y="96" fill="#bbbaaf" font-size="13">▾ Service</text>
+<rect x="48" y="103" width="210" height="22" fill="#353535"/>
+<text x="104" y="118" fill="#f0efec" font-size="13">FeeCalculator.php</text>
+<text x="104" y="140" fill="#bbbaaf" font-size="13">Calculator.php</text>
+<text x="90" y="162" fill="#bbbaaf" font-size="13">▸ Http</text>
+<text x="76" y="184" fill="#bbbaaf" font-size="13">▸ tests</text>
+<text x="76" y="206" fill="#bbbaaf" font-size="13">composer.json</text>
+<rect x="258" width="822" height="36" fill="#151515"/>
+<rect x="258" y="35" width="822" height="1" fill="#272727"/>
+<rect x="258" width="178.8" height="36" fill="#111111"/>
+<rect x="258" width="178.8" height="2" fill="#5dbb74"/>
+<text x="270" y="23" fill="#f0efec" font-size="13">FeeCalculator.php</text>
+<text x="448.8" y="23" fill="#bbbaaf" font-size="13">README.md</text>
+<rect x="258" y="100" width="822" height="22" fill="#181818"/>
+<text x="300" y="74" fill="#595853" text-anchor="end" font-size="12">1</text>
+<text x="318.0" y="74" fill="#d97757" xml:space="preserve">&lt;?php</text>
+<text x="300" y="96" fill="#595853" text-anchor="end" font-size="12">2</text>
+<text x="300" y="118" fill="#595853" text-anchor="end" font-size="12">3</text>
+<text x="318.0" y="118" fill="#d97757" xml:space="preserve">namespace </text>
+<text x="402.0" y="118" fill="#f0efec" xml:space="preserve">App\Service</text>
+<text x="494.4" y="118" fill="#d97757" xml:space="preserve">;</text>
+<text x="300" y="140" fill="#595853" text-anchor="end" font-size="12">4</text>
+<text x="300" y="162" fill="#595853" text-anchor="end" font-size="12">5</text>
+<text x="318.0" y="162" fill="#86847e" xml:space="preserve">/**</text>
+<text x="300" y="184" fill="#595853" text-anchor="end" font-size="12">6</text>
+<text x="318.0" y="184" fill="#86847e" xml:space="preserve"> * Recalculates camera fees for the billing period.</text>
+<text x="300" y="206" fill="#595853" text-anchor="end" font-size="12">7</text>
+<text x="318.0" y="206" fill="#86847e" xml:space="preserve"> */</text>
+<text x="300" y="228" fill="#595853" text-anchor="end" font-size="12">8</text>
+<text x="318.0" y="228" fill="#d97757" xml:space="preserve">final class </text>
+<text x="418.8" y="228" fill="#86acea" font-style="italic" xml:space="preserve">FeeCalculator</text>
+<text x="528.0" y="228" fill="#d97757" xml:space="preserve"> implements </text>
+<text x="628.8" y="228" fill="#6fd3a5" font-style="italic" xml:space="preserve">Calculator</text>
+<text x="300" y="250" fill="#595853" text-anchor="end" font-size="12">9</text>
+<text x="318.0" y="250" fill="#f0efec" xml:space="preserve">{</text>
+<text x="300" y="272" fill="#595853" text-anchor="end" font-size="12">10</text>
+<text x="318.0" y="272" fill="#d97757" xml:space="preserve">    const </text>
+<text x="402.0" y="272" fill="#d4749a" xml:space="preserve">DEFAULT_RATE</text>
+<text x="502.8" y="272" fill="#d97757" xml:space="preserve"> = </text>
+<text x="528.0" y="272" fill="#b0a5e8" xml:space="preserve">0.15</text>
+<text x="561.6" y="272" fill="#d97757" xml:space="preserve">;</text>
+<text x="300" y="294" fill="#595853" text-anchor="end" font-size="12">11</text>
+<text x="300" y="316" fill="#595853" text-anchor="end" font-size="12">12</text>
+<text x="318.0" y="316" fill="#d97757" xml:space="preserve">    private </text>
+<text x="418.8" y="316" fill="#86acea" font-style="italic" xml:space="preserve">array</text>
+<text x="460.8" y="316" fill="#f0efec" xml:space="preserve"> </text>
+<text x="469.2" y="316" fill="#5fb8ad" xml:space="preserve">$cache</text>
+<text x="519.6" y="316" fill="#d97757" xml:space="preserve"> = [];</text>
+<text x="300" y="338" fill="#595853" text-anchor="end" font-size="12">13</text>
+<text x="300" y="360" fill="#595853" text-anchor="end" font-size="12">14</text>
+<text x="318.0" y="360" fill="#d97757" xml:space="preserve">    public function </text>
+<text x="486.0" y="360" fill="#b5cc6a" xml:space="preserve">calculate</text>
+<text x="561.6" y="360" fill="#f0efec" xml:space="preserve">(</text>
+<text x="570.0" y="360" fill="#86acea" font-style="italic" xml:space="preserve">Account</text>
+<text x="628.8" y="360" fill="#f0efec" xml:space="preserve"> </text>
+<text x="637.2" y="360" fill="#d4a27f" xml:space="preserve">$account</text>
+<text x="704.4" y="360" fill="#d97757" xml:space="preserve">, </text>
+<text x="721.2" y="360" fill="#86acea" font-style="italic" xml:space="preserve">int</text>
+<text x="746.4" y="360" fill="#f0efec" xml:space="preserve"> </text>
+<text x="754.8" y="360" fill="#d4a27f" xml:space="preserve">$days</text>
+<text x="796.8" y="360" fill="#d97757" xml:space="preserve">): </text>
+<text x="822.0" y="360" fill="#86acea" font-style="italic" xml:space="preserve">float</text>
+<text x="300" y="382" fill="#595853" text-anchor="end" font-size="12">15</text>
+<text x="318.0" y="382" fill="#f0efec" xml:space="preserve">    {</text>
+<text x="300" y="404" fill="#595853" text-anchor="end" font-size="12">16</text>
+<text x="318.0" y="404" fill="#d97757" xml:space="preserve">        if </text>
+<text x="410.4" y="404" fill="#f0efec" xml:space="preserve">(</text>
+<text x="418.8" y="404" fill="#b5cc6a" xml:space="preserve">isset</text>
+<text x="460.8" y="404" fill="#f0efec" xml:space="preserve">(</text>
+<text x="469.2" y="404" fill="#5fb8ad" xml:space="preserve">$this</text>
+<text x="511.2" y="404" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="528.0" y="404" fill="#bcd1ca" xml:space="preserve">cache</text>
+<text x="570.0" y="404" fill="#f0efec" xml:space="preserve">[</text>
+<text x="578.4" y="404" fill="#d4a27f" xml:space="preserve">$account</text>
+<text x="645.6" y="404" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="662.4" y="404" fill="#bcd1ca" xml:space="preserve">id</text>
+<text x="679.2" y="404" fill="#f0efec" xml:space="preserve">]</text>
+<text x="687.6" y="404" fill="#f0efec" xml:space="preserve">))</text>
+<text x="704.4" y="404" fill="#f0efec" xml:space="preserve"> {</text>
+<text x="300" y="426" fill="#595853" text-anchor="end" font-size="12">17</text>
+<text x="318.0" y="426" fill="#d97757" xml:space="preserve">            return </text>
+<text x="477.6" y="426" fill="#5fb8ad" xml:space="preserve">$this</text>
+<text x="519.6" y="426" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="536.4" y="426" fill="#bcd1ca" xml:space="preserve">cache</text>
+<text x="578.4" y="426" fill="#f0efec" xml:space="preserve">[</text>
+<text x="586.8" y="426" fill="#d4a27f" xml:space="preserve">$account</text>
+<text x="654.0" y="426" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="670.8" y="426" fill="#bcd1ca" xml:space="preserve">id</text>
+<text x="687.6" y="426" fill="#d97757" xml:space="preserve">];</text>
+<text x="300" y="448" fill="#595853" text-anchor="end" font-size="12">18</text>
+<text x="318.0" y="448" fill="#f0efec" xml:space="preserve">        }</text>
+<text x="300" y="470" fill="#595853" text-anchor="end" font-size="12">19</text>
+<text x="300" y="492" fill="#595853" text-anchor="end" font-size="12">20</text>
+<text x="318.0" y="492" fill="#f0efec" xml:space="preserve">        </text>
+<text x="385.2" y="492" fill="#5fb8ad" xml:space="preserve">$rate</text>
+<text x="427.2" y="492" fill="#d97757" xml:space="preserve"> = </text>
+<text x="452.4" y="492" fill="#d4a27f" xml:space="preserve">$account</text>
+<text x="519.6" y="492" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="536.4" y="492" fill="#bcd1ca" xml:space="preserve">rate</text>
+<text x="570.0" y="492" fill="#d97757" xml:space="preserve"> ?? </text>
+<text x="603.6" y="492" fill="#d97757" xml:space="preserve">self</text>
+<text x="637.2" y="492" fill="#d97757" xml:space="preserve">::</text>
+<text x="654.0" y="492" fill="#d4749a" xml:space="preserve">DEFAULT_RATE</text>
+<text x="754.8" y="492" fill="#d97757" xml:space="preserve">;</text>
+<text x="300" y="514" fill="#595853" text-anchor="end" font-size="12">21</text>
+<text x="318.0" y="514" fill="#f0efec" xml:space="preserve">        </text>
+<text x="385.2" y="514" fill="#5fb8ad" xml:space="preserve">$total</text>
+<text x="435.6" y="514" fill="#d97757" xml:space="preserve"> = </text>
+<text x="460.8" y="514" fill="#b5cc6a" xml:space="preserve">round</text>
+<text x="502.8" y="514" fill="#f0efec" xml:space="preserve">(</text>
+<text x="511.2" y="514" fill="#5fb8ad" xml:space="preserve">$rate</text>
+<text x="553.2" y="514" fill="#d97757" xml:space="preserve"> * </text>
+<text x="578.4" y="514" fill="#d4a27f" xml:space="preserve">$days</text>
+<text x="620.4" y="514" fill="#d97757" xml:space="preserve">, </text>
+<text x="637.2" y="514" fill="#b0a5e8" xml:space="preserve">2</text>
+<text x="645.6" y="514" fill="#d97757" xml:space="preserve">);</text>
+<text x="300" y="536" fill="#595853" text-anchor="end" font-size="12">22</text>
+<text x="318.0" y="536" fill="#f0efec" xml:space="preserve">        </text>
+<text x="385.2" y="536" fill="#5fb8ad" xml:space="preserve">$this</text>
+<text x="427.2" y="536" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="444.0" y="536" fill="#b5cc6a" xml:space="preserve">log</text>
+<text x="469.2" y="536" fill="#f0efec" xml:space="preserve">(</text>
+<text x="477.6" y="536" fill="#e3c98b" xml:space="preserve">&quot;fee for {$account-&gt;id}: $total&quot;</text>
+<text x="746.4" y="536" fill="#d97757" xml:space="preserve">);</text>
+<text x="300" y="558" fill="#595853" text-anchor="end" font-size="12">23</text>
+<text x="300" y="580" fill="#595853" text-anchor="end" font-size="12">24</text>
+<text x="318.0" y="580" fill="#d97757" xml:space="preserve">        return </text>
+<text x="444.0" y="580" fill="#5fb8ad" xml:space="preserve">$this</text>
+<text x="486.0" y="580" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="502.8" y="580" fill="#bcd1ca" xml:space="preserve">cache</text>
+<text x="544.8" y="580" fill="#f0efec" xml:space="preserve">[</text>
+<text x="553.2" y="580" fill="#d4a27f" xml:space="preserve">$account</text>
+<text x="620.4" y="580" fill="#d97757" xml:space="preserve">-&gt;</text>
+<text x="637.2" y="580" fill="#bcd1ca" xml:space="preserve">id</text>
+<text x="654.0" y="580" fill="#d97757" xml:space="preserve">] = </text>
+<text x="687.6" y="580" fill="#5fb8ad" xml:space="preserve">$total</text>
+<text x="738.0" y="580" fill="#d97757" xml:space="preserve">;</text>
+<text x="300" y="602" fill="#595853" text-anchor="end" font-size="12">25</text>
+<text x="318.0" y="602" fill="#f0efec" xml:space="preserve">    }</text>
+<text x="300" y="624" fill="#595853" text-anchor="end" font-size="12">26</text>
+<text x="318.0" y="624" fill="#f0efec" xml:space="preserve">}</text>
+<rect y="650" width="1080" height="24" fill="#1d1d1d"/>
+<rect y="650" width="1080" height="1" fill="#272727"/>
+<text x="14" y="666" fill="#bbbaaf" font-size="11">⎇ develop   ✓ 0  ⚠ 0</text>
+<text x="1066" y="666" fill="#bbbaaf" font-size="11" text-anchor="end">Ln 12, Col 18   UTF-8   PHP   Monokai Navy</text>
+</svg>
