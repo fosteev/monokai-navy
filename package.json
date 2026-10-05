@@ -3,7 +3,8 @@
   "displayName": "Monokai Navy",
   "description": "Monokai (Sublime Text 3 flavour) ported from a PhpStorm scheme \u2014 navy, grey, plum, Claude, light or white workbench",
   "publisher": "fosteev",
-  "version": "1.4.0",
+  "version": "1.4.1",
+  "icon": "assets/icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Extension icon: a Monokai-coloured “M” on the navy tile (`assets/icon.svg` → `icon.png`).
+
 ## 1.4.0
 
 - Monokai Navy Claude: the near-black neutral workbench of the Claude desktop app (`#111111` → `#212121`, colours sampled from the app) with a clay `#d97757` accent and its own syntax palette — clay keywords, manilla strings, olive functions, blue classes, heather numbers. Variants in `tools/variants.json` can now carry `"tokens"` (syntax palette), `"colors"` (per-key overrides) and `"extends"` (inherit another variant).

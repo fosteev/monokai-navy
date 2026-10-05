@@ -69,7 +69,7 @@ Not on the Marketplace yet. From this repo:
 git clone https://github.com/fosteev/monokai-navy
 cd monokai-navy
 npx @vscode/vsce package
-code --install-extension monokai-navy-1.4.0.vsix
+code --install-extension monokai-navy-1.4.1.vsix
 ```
 
 Restart VS Code, then `Cmd+K Cmd+T` → **Monokai Navy** / **Grey** / **Pink** / **Claude** / **Claude Blue** / **Claude Green** / **Light** / **White**.
